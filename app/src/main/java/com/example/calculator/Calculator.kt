@@ -1,6 +1,6 @@
 package com.example.calculator
 
-import android.hardware.lights.Light
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.theme.LightGray
@@ -73,9 +71,13 @@ fun Calculator() {
     }
 
     val symbols = listOf("+", "-", "x", "÷")
+    var decimalNeededEmptyList = listOf<String>()
+
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -97,8 +99,8 @@ fun Calculator() {
                         horizontalArrangement = Arrangement.End
                     ) {
                         Text(
-                            text = if ( screen.toString() == "0" ) "" else screen.toString(),
-                            fontSize = 40.sp,
+                            text =  screen, //if ( screen == "0" ) "" else ...
+                            fontSize = 35.sp,
 
                             )
                     }
@@ -387,8 +389,20 @@ fun Calculator() {
                     ) {
                         Button(
                             onClick = {
-                                // Working on! Decimal function in working progress...
+                                for ( symbol in symbols) {
+                                    if (symbol in screen) {
+                                        decimalNeededEmptyList =  screen.split(symbol)
+                                        if (!decimalNeededEmptyList[1].contains(".")) {
+                                            screen = screen + "."
+                                            break
+                                        }
 
+
+                                    } else if (!screen.contains(".")) {
+                                        screen = screen + "."
+                                        break
+                                    }
+                                }
 
                             },
                             modifier = Modifier.size(90.dp),
