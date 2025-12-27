@@ -1,6 +1,8 @@
 package com.example.calculator
 
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.calculator.ui.theme.DarkGrey
 import com.example.calculator.ui.theme.LightGray
+
 import com.example.calculator.ui.theme.Orange
 
 
@@ -53,10 +57,10 @@ fun result(screen: String): Double{
             result = list[0] - list[1]
         }
         "x" in screen -> {
-            result = result + list[0] * list[1]
+            result += list[0] * list[1]
         }
         "÷" in screen -> {
-            result = result + list[0] / list[1]
+            result += list[0] / list[1]
         }
     }
 
@@ -73,10 +77,26 @@ fun Calculator() {
     val symbols = listOf("+", "-", "x", "÷")
     var decimalNeededEmptyList = listOf<String>()
 
+    val bgColor = if (isSystemInDarkTheme()) {
+        DarkGrey
+    } else {
+        Color.White
+    }
+
+    val screenFontColor = if (isSystemInDarkTheme()) {
+        Color.White
+    } else {
+        Color.Black
+
+    }
+
+
+
 
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(bgColor)
             .padding(10.dp)
     ) {
         Column(
@@ -101,6 +121,7 @@ fun Calculator() {
                         Text(
                             text =  screen, //if ( screen == "0" ) "" else ...
                             fontSize = 35.sp,
+                            color = screenFontColor
 
                             )
                     }
@@ -152,7 +173,7 @@ fun Calculator() {
 
                                 if (screen.isNotEmpty()) {
                                     val newNumberString = screen.dropLast(1)
-                                    screen = if (newNumberString.isEmpty()) "" else newNumberString
+                                    screen = newNumberString.ifEmpty { "" }
                                 }
                             },
                             modifier = Modifier.size(90.dp),
@@ -170,7 +191,7 @@ fun Calculator() {
                         Button(
                             onClick = {
                                 if (screen != "" &&  symbols[0] !in screen && symbols[1] !in screen && symbols[2] !in screen && symbols[3] !in screen ) {
-                                    screen = screen + symbols[3] // ÷
+                                    screen += symbols[3] // ÷
                                 }
                             },
                             modifier = Modifier.size(90.dp),
@@ -194,7 +215,7 @@ fun Calculator() {
                     ) {
                         Button(
                             onClick = {
-                                screen = screen + "1"
+                                screen += "1"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -208,7 +229,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "2"
+                                screen += "2"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -223,7 +244,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "3"
+                                screen += "3"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -238,7 +259,7 @@ fun Calculator() {
                         Button(
                             onClick = {
                                 if (screen != "" &&  symbols[0] !in screen && symbols[1] !in screen && symbols[2] !in screen && symbols[3] !in screen ) {
-                                    screen = screen + symbols[2] // x
+                                    screen += symbols[2] // x
                                 }
                             },
                             modifier = Modifier.size(90.dp),
@@ -260,7 +281,7 @@ fun Calculator() {
                     ) {
                         Button(
                             onClick = {
-                                screen = screen + "4"
+                                screen += "4"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -274,7 +295,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "5"
+                                screen += "5"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -288,7 +309,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "6"
+                                screen += "6"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -303,7 +324,7 @@ fun Calculator() {
                         Button(
                             onClick = {
                                 if (screen != "" &&  symbols[0] !in screen && symbols[1] !in screen && symbols[2] !in screen && symbols[3] !in screen ) {
-                                    screen = screen + symbols[1] // -
+                                    screen += symbols[1] // -
                                 }
                             },
                             modifier = Modifier.size(90.dp),
@@ -325,7 +346,7 @@ fun Calculator() {
                     ) {
                         Button(
                             onClick = {
-                                screen = screen + "7"
+                                screen += "7"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -339,7 +360,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "8"
+                                screen += "8"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -353,7 +374,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "9"
+                                screen += "9"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
@@ -368,7 +389,7 @@ fun Calculator() {
                         Button(
                             onClick = {
                                 if (screen != "" && symbols[0] !in screen && symbols[1] !in screen && symbols[2] !in screen && symbols[3] !in screen ) {
-                                    screen = screen + symbols[0] // +
+                                    screen += symbols[0] // +
                                 }
                             },
                             modifier = Modifier.size(90.dp),
@@ -393,13 +414,13 @@ fun Calculator() {
                                     if (symbol in screen) {
                                         decimalNeededEmptyList =  screen.split(symbol)
                                         if (!decimalNeededEmptyList[1].contains(".")) {
-                                            screen = screen + "."
+                                            screen += "."
                                             break
                                         }
 
 
                                     } else if (!screen.contains(".")) {
-                                        screen = screen + "."
+                                        screen += "."
                                         break
                                     }
                                 }
@@ -419,7 +440,7 @@ fun Calculator() {
 
                         Button(
                             onClick = {
-                                screen = screen + "0"
+                                screen += "0"
                             },
                             modifier = Modifier.size(90.dp),
                             colors = ButtonDefaults.buttonColors(Color.DarkGray)
